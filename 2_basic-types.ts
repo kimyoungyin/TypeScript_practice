@@ -112,3 +112,28 @@ console.log(Browser.CHROME); // "ch"
 console.log(Browser.SAFARI); // 10
 console.log(Browser.WHALE); // 11
 console.log(Browser.BRAVE); // 12
+
+// void
+const voidFunc = () => {
+    console.log("Hello");
+};
+console.log(voidFunc); // undefined
+
+// never
+const neverFunc = () => {
+    throw { message: "에러입니다", errorCode: 500 };
+};
+const infiniteFunc = () => {
+    while (true) {}
+};
+const returnErrorFunc = () => {
+    return neverFunc();
+};
+
+// 함수 타입
+let getFunc: () => number;
+let getFunc2: (a: number, b: number) => string;
+
+let funcType2 = (a: number, b: string) => {
+    return a.toString() + b;
+};
