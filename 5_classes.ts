@@ -26,12 +26,30 @@ class ITDepartment extends Department {
 }
 
 class AccountingDepartment extends Department {
+    private lastReport: string;
+
+    get mostRecentReport() {
+        if (this.lastReport) {
+            return this.lastReport;
+        }
+        throw new Error("No reports found");
+    }
+
+    set mostRecentReport(value: string) {
+        if (!value) {
+            throw new Error("Please pass in a valid value");
+        }
+        this.addReport(value);
+    }
+
     constructor(id: string, public reports: string[]) {
-        // name 프로퍼티는 인스턴스 생성 시 name을 입력받지 않고 "IT"로 결정되므로 이렇게 작성
+        // name 프로퍼티는 인스턴스 생성 시 name을 입력받지 않고 "Accounting"으로 결정되므로 이렇게 작성
         super(id, "Accounting");
+        this.lastReport = reports[0];
     }
     addReport(text: string) {
         this.reports.push(text);
+        this.lastReport = text;
     }
     printReports() {
         console.log(this.reports);
@@ -43,13 +61,15 @@ const it = new ITDepartment("d1", ["Max"]);
 it.addEmployee("Max");
 it.addEmployee("Manu");
 it.describe();
-// accounting.employees;
-// accounting.employees[2] = "Halo";
 
 it.printEmployeeInformation();
 
 console.log(it);
 
 const accounting = new AccountingDepartment("d2", []);
-accounting.addReport("Somethig went wrong..");
-accounting.printReports();
+
+// 사용할 때는 메서드가 아닌 프로퍼티 방식으로 사용
+accounting.mostRecentReport = "LAST!!"; // setter 호출
+console.log(accounting.mostRecentReport); // getter 호출
+// accounting.addReport("Somethig went wrong..");
+// accounting.printReports();
